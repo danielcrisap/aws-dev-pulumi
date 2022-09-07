@@ -2,12 +2,12 @@ import pulumi
 from pulumi_aws import eks
 from pulumi_aws import ec2
 import src.eks_iam as iam
-import src.vpc as vpc
+from src.vpc import vpc, subnet_ids
 
 # Security Group
 eks_security_group = ec2.SecurityGroup(
     'eks-cluster-sg',
-    vpc_id=vpc.vpc.id,
+    vpc_id=vpc.id,
     description='Allow all HTTP(s) traffic to EKS Cluster',
     tags={
         'Name': 'pulumi-cluster-sg',
@@ -40,7 +40,7 @@ eks_cluster = eks.Cluster(
     vpc_config=eks.ClusterVpcConfigArgs(
         public_access_cidrs=['0.0.0.0/0'],
         security_group_ids=[eks_security_group.id],
-        subnet_ids=vpc.subnet_ids["k8s"],
+        subnet_ids=subnet_ids["k8s"],
     ),
 )
 
