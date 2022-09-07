@@ -1,6 +1,3 @@
 name: aws-dev-pulumi
 description: AWS Personal dev account
-runtime:
-  name: python
-  options:
-    virtualenv: venv
+runtime: python
